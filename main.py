@@ -1,9 +1,9 @@
 import random
 
 
-def inputIsCorrect(userInput):
+def inputIsCorrect(userInput) -> bool:
     if userInput.isdigit() == False:
-        print(f"{userInput} — это не число")
+        print(f"{userInput} — это не число цифрами")
         return False
     if int(userInput) > 100:
         print(f"Число {userInput} больше 100")
@@ -14,7 +14,8 @@ def inputIsCorrect(userInput):
     else:
         return True
 
-def getCorrectInput(userInput):
+def getCorrectInput() -> int:
+    userInput = input()
     while inputIsCorrect(userInput) == False:
         userInput = input("Введи число от 1 до 100: ")
 
@@ -25,6 +26,14 @@ def diaplayInitialDecoration():
     print("(¯`·._.·"*3, "--- ★ ---", "·._.·´¯)"*3)
     print("#"*19, " ИГРА УГАДАЙ ЧИСЛО ", "#"*19)
     print("(¯`·._.·"*3, "\\(★ ω ★)/", "·._.·´¯)"*3)
+
+def displayAnswerDecoration(answerNum, attempt):
+        if answerNum < hiddenNum:
+            print(f"(￢_￢;) — {answerNum} мало...")
+            print(f"Это была {attempt}-я попытка. Попробуй еще раз:")           
+        elif answerNum > hiddenNum:
+            print(f"(」⊙_⊙)」 — {answerNum} много!")
+            print(f"Это была {attempt}-я попытка. Попробуй еще раз:")
 
 def displayFinalDecoration(number, attempt):
     print(f"\n{"\\(★ o ★)/ — ПОБЕДА!".center(56, " ")} ")
@@ -45,21 +54,13 @@ while gameIsOn:
 
     diaplayInitialDecoration()
     print("\nУгадай число от 1 до 100: ")
-
-    userInput = input()
-    userNum = getCorrectInput(userInput)
+    
+    userNum = getCorrectInput()
     attemptCount = 1
     while userNum != hiddenNum:
-        if userNum < hiddenNum:
-            print(f"(￢_￢;) — {userNum} мало...")
-            print(f"Это была {attemptCount}-я попытка. Попробуй еще раз:")           
-        elif userNum > hiddenNum:
-            print(f"(」⊙_⊙)」 — {userNum} много!")
-            print(f"Это была {attemptCount}-я попытка. Попробуй еще раз:")
-
+        displayAnswerDecoration(userNum, attemptCount)
         attemptCount += 1
-        userInput = input()
-        userNum = getCorrectInput(userInput)
+        userNum = getCorrectInput()
 
     displayFinalDecoration(userNum, attemptCount)
 
